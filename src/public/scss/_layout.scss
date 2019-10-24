@@ -1,0 +1,168 @@
+$bg-color: #e6e6e6;
+$font-fam: "Open Sans", sans-serif;
+@function font-color($color) {
+  @if (lightness($color) > 50) {
+    @return #161616;
+  } @else {
+    @return #ffffff;
+  }
+}
+$href-color: #18cc90;
+
+.margin-auto {
+  margin: 0 auto;
+}
+
+.padd {
+  padding: 25px;
+}
+
+.shadows {
+  box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.2);
+}
+
+.white-bg {
+  background-color: lighten($bg-color, 4);
+}
+
+@mixin float($property) {
+  float: $property;
+}
+
+@mixin width($property) {
+  width: $property;
+}
+
+html {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: $font-fam;
+  background-color: $bg-color;
+  color: font-color($bg-color);
+  font-size: 16px;
+  min-height: 100vh;
+  position: relative;
+}
+.wrapper {
+  @extend .padd;
+  @extend .margin-auto;
+  @include width(100%);
+  overflow: hidden;
+  max-width: 980px;
+  section {
+    @include width(100%);
+    @include float(left);
+    @extend .padd;
+  }
+}
+nav {
+  @extend .white-bg;
+  @extend .shadows;
+  @extend .padd;
+  @include float(left);
+  @include width(100%);
+  border-top: 3px solid $href-color;
+  ul {
+    display: flex;
+    align-items: center;
+  }
+  li {
+    @include float(left);
+    display: inline-block;
+    margin-right: 15px;
+  }
+}
+.curriculum-vitae {
+  margin-top: 30px;
+  background-color: #fafaf2;
+  position: relative;
+  @extend .shadows;
+  min-height: 800px;
+  .cv-misc {
+    padding-top: 200px;
+    @include float(left);
+    @include width(30%);
+  }
+  .cv-main {
+    padding-top: 200px;
+    position: relative;
+    @include float(left);
+    @include width(70%);
+    .cv-initials {
+      position: absolute;
+      top: -25px;
+      left: 0;
+      background-color: #ff7a7a;
+      width: 150px;
+      height: 200px;
+      color: #fafaf2;
+      display: flex;
+      align-items: center;
+      span {
+        font-size: 5.5rem;
+        position: absolute;
+        left: -9.5px;
+        line-height: 0.8;
+        bottom: -2px;
+      }
+    }
+  }
+  border-bottom: 4px solid #ff7a7a;
+}
+.cv-section {
+  margin-bottom: 40px;
+}
+.cv-content-box {
+  margin-top: 50px;
+  p {
+    margin-top: 15px;
+    line-height: 1.3rem;
+    padding-right: 25%;
+    color: transparentize(font-color($bg-color), 0.32);
+    font-size: 0.75rem;
+  }
+}
+/* Login Lightbox */
+.lightbox {
+  display: none;
+}
+.login_register {
+  @extend .padd;
+  @include width(450px);
+  display: flex;
+}
+.lightbox-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.lightbox-header {
+  text-align: center;
+  font-size: 150%;
+  font-weight: 500;
+  width: 100%;
+  padding: 25px;
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.1);
+  border: 1px solid hsla(0, 0%, 44%, 0.1);
+}
+.response_errors,
+.response_errors_login {
+  background-color: rgb(255, 237, 237);
+  color: #1a2e3b;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 90%;
+}
+/* Edit box */
+
+.modify-box {
+  @extend .padd;
+  max-width: 1080px;
+  overflow: hidden;
+}

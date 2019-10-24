@@ -1,0 +1,194 @@
+a {
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.pm_logout {
+  background-color: $href-color;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #3e4643;
+  }
+}
+#reg-box {
+  background-color: $href-color;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  &:hover {
+    background-color: #18cc90;
+  }
+}
+.fl {
+  cursor: pointer;
+}
+section {
+  .welcome-header {
+    font-size: 2.2rem;
+  }
+  .welcome-meta {
+    margin-top: 15px;
+    line-height: 1.3rem;
+    padding-right: 25%;
+    color: transparentize(font-color($bg-color), 0.32);
+    a {
+      color: $href-color;
+    }
+  }
+}
+.curriculum-vitae {
+  h3 {
+    font-weight: 900;
+    font-size: 1rem;
+    color: transparentize(font-color($bg-color), 0.22);
+    letter-spacing: 3px;
+  }
+  ul {
+    padding-top: 40px;
+    li {
+      line-height: 1.3rem;
+      font-size: 0.75rem;
+      color: transparentize(font-color($bg-color), 0.32);
+    }
+    .list-header {
+      color: transparentize(font-color($bg-color), 0.22);
+      font-size: 0.75rem;
+      line-height: 1.3rem;
+      font-weight: 900;
+    }
+    .work-desc {
+      margin: 10px 0;
+    }
+  }
+}
+.u1 {
+  list-style-type: circle;
+  padding-left: 15px;
+  .list-header {
+    position: relative;
+    margin-left: -15px;
+  }
+}
+
+.cv-intro {
+  h2 {
+    font-size: 3.5rem;
+    line-height: 2.4rem;
+    letter-spacing: 4px;
+  }
+  p {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: transparentize(font-color($bg-color), 0.52);
+  }
+  .divider {
+    width: 20%;
+    height: 8px;
+    margin: 30px 0;
+    background-color: #ff7a7a;
+  }
+}
+.cv-section,
+.cv-content-box {
+  h3 {
+    display: flex;
+    align-items: center;
+    span {
+      margin-left: 8px;
+      padding: 5px;
+      background-color: darken(#fafaf2, 5);
+      border-radius: 20px;
+      box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.1);
+      &:hover {
+        cursor: pointer;
+        background-color: darken(#fafaf2, 20);
+      }
+    }
+    svg {
+      display: block;
+    }
+  }
+}
+/* Login base */
+.normal_input {
+  @include width(100%);
+  box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.1);
+  border-radius: 3px;
+  border: 1px solid hsla(0, 0%, 44%, 0.1);
+  padding: 15px;
+  font-size: 90%;
+  font-weight: 100;
+  margin-bottom: 15px;
+}
+.normal_submit {
+  box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.1);
+  background-color: $href-color;
+  font-weight: 100;
+  font-size: 90%;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  width: 100%;
+  color: #fff;
+  cursor: pointer;
+}
+.blue_link {
+  color: $href-color;
+}
+/* Edit Form */
+.form,
+.create-form {
+  font-size: 0.8rem;
+  input,
+  textarea {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(112, 112, 112, 0.1);
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    line-height: 1.5rem;
+  }
+  textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+  }
+  .__delete,
+  .__save {
+    box-shadow: 0 2px 6px hsla(0, 0%, 0%, 0.1);
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    line-height: 1.5rem;
+    cursor: pointer;
+  }
+  .__delete {
+    background-color: darken(#ecadad, 5);
+    &:hover {
+      background-color: darken(#ecadad, 9);
+    }
+  }
+  .__save {
+    background-color: darken(#adecad, 5);
+    &:hover {
+      background-color: darken(#adecad, 9);
+    }
+  }
+  h4 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+}
+#error_catcher {
+  margin-top: 5px;
+  font-size: 0.7rem;
+  margin-left: 5px;
+}

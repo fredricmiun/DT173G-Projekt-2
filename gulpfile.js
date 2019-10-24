@@ -9,17 +9,26 @@ sass.compiler = require("node-sass");
 
 /* Sökväg */
 const files = {
-  htmlPath: "src/**/*.html",
-  jsPath: "src/js/*.js",
-  scssPath: "src/scss/*.scss",
+  phpPrivate: "src/private/**/*.php",
+  phpPublic: "src/public/**/*.php",
+  jsPath: "src/public/js/**/*.js",
+  scssPath: "src/public/scss/*.scss",
   imgPath:
-    "src/images/**/*" /* Samtliga filer oavsett filtyp och underkataloger */
+    "src/images/**/*" /* Samtliga filer oavsett filtyp och underkataloger */,
+  flPath: "src/public/featherlight/*"
 };
 
-/* Task: kopiera HTML */
-function copyHTML() {
-  return src(files.htmlPath)
-    .pipe(dest("build"))
+/* Task: kopiera php i public foldern */
+function copyPhpPrivate() {
+  return src(files.phpPrivate)
+    .pipe(dest("build/private"))
+    .pipe(browserSync.stream()); /* browserSync läggs i slutet för initiering */
+}
+
+/* Task: kopiera php i public foldern */
+function copyPhpPublic() {
+  return src(files.phpPublic)
+    .pipe(dest("build/public"))
     .pipe(browserSync.stream()); /* browserSync läggs i slutet för initiering */
 }
 
@@ -32,9 +41,8 @@ function jsTask() {
         presets: ["@babel/preset-env"]
       })
     )
-    .pipe(concat("main.js"))
     .pipe(sourcemaps.write("."))
-    .pipe(dest("build/js"))
+    .pipe(dest("build/public/js"))
     .pipe(browserSync.stream());
 }
 
@@ -42,14 +50,21 @@ function jsTask() {
 function scssTask() {
   return src(files.scssPath)
     .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError))
-    .pipe(dest("build/css"))
+    .pipe(dest("build/public/css"))
     .pipe(browserSync.stream());
 }
 
 /* Task: kopiera img  */
 function imgTask() {
   return src(files.imgPath)
-    .pipe(dest("build/images"))
+    .pipe(dest("build/public/images"))
+    .pipe(browserSync.stream());
+}
+
+/* Task: kopiera featherlight */
+function copyFeatherlight() {
+  return src(files.flPath)
+    .pipe(dest("build/public/featherlight"))
     .pipe(browserSync.stream());
 }
 
@@ -57,9 +72,7 @@ function imgTask() {
 function watchTask() {
   /* Livereload med extra plugins */
   browserSync.init({
-    server: {
-      baseDir: "build/"
-    },
+    proxy: "http://localhost/DT173G%20-%20Projekt/build/public",
     /* Tillåter andra enheter (mobiler ex.) på samma nätverk att ansluta till hemsidan */
     online: true,
     tunnel: true,
@@ -67,12 +80,33 @@ function watchTask() {
   });
 
   watch(
-    [files.htmlPath, files.jsPath, files.scssPath, files.imgPath],
-    parallel(copyHTML, jsTask, scssTask, imgTask)
+    [
+      files.phpPrivate,
+      files.phpPublic,
+      files.jsPath,
+      files.scssPath,
+      files.imgPath,
+      files.flPath /* Featherlight */
+    ],
+    parallel(
+      copyPhpPrivate,
+      copyPhpPublic,
+      jsTask,
+      scssTask,
+      imgTask,
+      copyFeatherlight /* Featherlight */
+    )
   ).on("change", browserSync.reload);
 }
 
 exports.default = series(
-  parallel(copyHTML, jsTask, scssTask, imgTask),
+  parallel(
+    copyPhpPrivate,
+    copyPhpPublic,
+    jsTask,
+    scssTask,
+    imgTask,
+    copyFeatherlight /* Featherlight */
+  ),
   watchTask
 );
