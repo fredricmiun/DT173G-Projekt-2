@@ -1,9 +1,13 @@
 <?php
 
+// En klass föra att registrera den användare som ska hantera innehållet
 class Join extends Database {
     protected $arr = [];
     protected $string_int = "";
 
+    // Vi lägger in databasen efter denne klarat spärrarna, som exempelvis antalet tecken osv
+    // Vi hashar sedan lösenordet och lagrar det.
+    
     public function register_user($primary_key, $username, $email, $password) {
 
         $password_hashed = password_hash( $password, PASSWORD_DEFAULT );
@@ -18,6 +22,12 @@ class Join extends Database {
         }
     }
 
+    // Här kollar vi ifall nyckeln som lagras inte redan finns
+    // Vi skapar en slumpmässig sifferkombination för att öka säkerheten för den som registrerar
+    // Man skulle kunna använda auto_increment, men skulle exempelvis två försöka registrera sig samtidigt så skulle det kunna krocka. 
+
+    // Kanske inte superrelevant för en sajt där det bara finns en användare
+
     public function check_key($x) {
         $stmt = $this->connect()->query("SELECT u.user_id
         FROM dt173g_projekt.users u");
@@ -28,6 +38,8 @@ class Join extends Database {
         }
     }
     
+    // Kontrollera användarnamn
+
     public function check_user($x) {
 
         $stmt = $this->connect()->prepare("SELECT u.username
@@ -39,6 +51,8 @@ class Join extends Database {
             return true;
         }
     }
+
+    // Kontrollera email
 
     public function check_email($x) {
 

@@ -22,6 +22,8 @@ if(isset($cv_personal)) {
     }
 }
 
+// Funktioner för att behandla data i arrays
+
 function display_skills($x, $h4) {
 echo "<ul class='u1'>";
 echo "<h4 class='list-header'>$h4</h4>";

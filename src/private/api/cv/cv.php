@@ -8,7 +8,7 @@ spl_autoload_register(function($class) {
 
 // Hämta metod
 $method = $_SERVER['REQUEST_METHOD'];
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT");
 header("Content-type:application/json;charset=utf-8");
 // Gör det möjligt att hämta data som skickas
@@ -20,7 +20,13 @@ require         "../../../private/app/View/CvView.php";
 
 switch ($method) {
     case "GET":
-        // Ifall något av fälten är tomma, avbryt uppdatering. Ge felmeddelande.
+        // Här läggs nödvändig information in.
+        // Empty() bestämmer om data ska synas eller inte.
+        // span med onClick bestämmer om besökaren får redigera, då inloggning behöver finnas för att kunna redigera innehållet. 
+        // Är personen inte inloggad så kommer denne få en inloggnings lightbox istället
+
+        // I View-filen CvView.php finns funktioner som hanterar data som den matas med och returnerar sedan XML-innehåll.
+        // Detta gör så att denna fil ser lite mer "städad" ut, och vi kan då också skriva funktioner med ett ändamål och denna kan då återanvändas om olik data hämtas från databasen.
         ?>
 <aside class="cv-misc">
     <div class="cv-section">
@@ -52,7 +58,7 @@ switch ($method) {
                 <?php if(!isset($_SESSION['id'])) { echo "data-featherlight='#login'"; } else { echo "data-featherlight='#edit-box'"; } ?>><?php icon_edit(16, "#161616") ?></span>
         </h3>
         <?php 
-        if(!empty($retrieve_skills))    display_skills($retrieve_skills, "Datateknik");
+        if(!empty($retrieve_skills))    display_skills($retrieve_skills, "Datateknik"); /* Funktioner som returnerar xml baserat på informationen som matas */
         ?>
     </div>
     <div class="cv-section">
@@ -74,7 +80,12 @@ switch ($method) {
 </aside>
 <main class="cv-main">
     <div class="cv-initials">
-        <span><?= mb_substr($fname, 0, 1, "UTF-8") . "<br>" . mb_substr($lname, 0, 1, "UTF-8") ?></span>
+        <?php 
+        /* Hämta första bokstaven i förnamn/efternamn */ 
+        /*  En del Webbservers verkar inte ha stöd för mbstring, 500 servererror skapas så fort denna är med, så använder substr istället för mb_ */
+        ?>
+
+        <span><?php echo substr($fname, 0, 1) . "<br>" . substr($lname, 0, 1) ?></span>
     </div>
     <div class="cv-intro">
         <h2><?= $fname . " " . $lname ?></h2>

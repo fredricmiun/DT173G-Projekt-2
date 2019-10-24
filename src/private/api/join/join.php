@@ -1,4 +1,6 @@
 <?php
+ob_start();
+session_start();
 
 spl_autoload_register(function($class) {
     require         "../../../private/app/Model/$class.php";
@@ -7,10 +9,12 @@ spl_autoload_register(function($class) {
 // Hämta metod
 $method = $_SERVER['REQUEST_METHOD'];
 header("Content-type:application/json;charset=utf-8");
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT");
 // Gör det möjligt att hämta data so mskickas
 $input = json_decode(file_get_contents('php://input'),true);
+
+    // Definiera värdet i variabler
 
     $username = $input['username'];
     $email = $input['email'];
@@ -26,64 +30,56 @@ $input = json_decode(file_get_contents('php://input'),true);
         
             if(empty($username) || empty($email) || empty($password) || empty($password_confirm)){
                 $data['response'] = "error";
-                $data['content'] = "Please enter your username, email, and password";
+                $data['content'] = "Fyll i alla fält";
             } else {
                 $check = new Join();
                 /* Check if username is taken */ 
                 if($check->check_user($username)) {
                     $data['response'] = "error";
-                    $data['content'] = "This username is taken";
+                    $data['content'] = "Användarnamn upptaget";
                 } 
                 else if (strlen($username)<3) {
                     $data['response'] = "error";
-                    $data['content'] = "Username needs to be atleast 3 characters";
+                    $data['content'] = "Användarnamn behöver vara minst tre tecken";
                 }
                 else if (strlen($username)>32) {
                     $data['response'] = "error";
-                    $data['content'] = "Username needs to be shorter than 32 characters";
+                    $data['content'] = "Användarnamn får inte vara längre än 32 tecken";
                 }
                 /* Only allow letters and digits for username */
                 else if (!ctype_alnum($username)) {
                     $data['response'] = "error";
-                    $data['content'] = "Usernames can only consist of letters between A-Z and digits";
+                    $data['content'] = "Användarnamn får bara innehålla bokstäver och siffror";
                 }  
                 /* Check if email is taken */ 
                 else if ($check->check_email($email)) {
                     $data['response'] = "error";
-                    $data['content'] = "This email is already registered";
+                    $data['content'] = "E-mail är upptagen";
                 }
                 /* Check if email isn't too long */
                 else if (strlen($email)>128) {
                     $data['response'] = "error";
-                    $data['content'] = "Email needs to be shorter than 128 characters";
+                    $data['content'] = "E-mail måste vara kortare än 128 tecken";
                 }
                 /* Check if mail is really valid */
                 else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $data['response'] = "error";
-                    $data['content'] = "Email is invalid";
+                    $data['content'] = "E-mail okänd";
                 } 
                 /* Check if password is strong enough */ 
                 else if (strlen($password)<8) {
                     $data['response'] = "error";
-                    $data['content'] = "Password needs to be atleast 8 characters";
+                    $data['content'] = "Lösenordet måste vara minst 8 tecken";
                 } 
                 /* Check if passwords match*/ 
                 else if ($password != $password_confirm) {
                     $data['response'] = "error";
-                    $data['content'] = "Passwords don't match";
+                    $data['content'] = "Lösenordet matchar inte";
                 } 
-                /* If all is well - register user */
+                /* Om allt ser bra ut så registrerar vi användaren */
                 else {
                     if($check->register_user(generate_key(), $username, $email, $password)) {
                         $data['response'] = "success";
-                        $data['content'] = "Welcome to Fredrics CV! Signing in.";
-                            /* After they register we log them in */
-                            // $login = new Login;
-                            // if($login->login_user($username, $password)) { 
-                            //     $data['response'] = "success";
-                            //     $data['content'] = "Welcome to Fredrics CV! Signing in.";
-                            // }
-                            /* End of login */
                     }
                 }
             }

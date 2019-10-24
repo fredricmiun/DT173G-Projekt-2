@@ -9,6 +9,9 @@ class Cv extends Database {
     
     */
 
+    // Hämta allt från cv_personal
+    // Skicka till array
+    // Informationen behandlas i efterhand
     public function cv_personal() {
         $stmt = $this->connect()->query("SELECT * 
         FROM dt173g_projekt.cv_personal");
@@ -19,6 +22,7 @@ class Cv extends Database {
         }
     }
 
+    // Allt från tabellen cv_skills
     public function cv_skills() {
         $stmt = $this->connect()->query("SELECT * 
         FROM dt173g_projekt.cv_skills");
@@ -30,6 +34,7 @@ class Cv extends Database {
         }
     }
 
+    // Allt från tabellen cv_edu_kuriosa
     public function cv_edu_kuriosa($x) {
         $stmt = $this->connect()->prepare("SELECT * 
         FROM dt173g_projekt.cv_edu_kuriosa
@@ -44,6 +49,8 @@ class Cv extends Database {
         }
     }
 
+    
+    // Allt från tabellen cv_experience
     public function cv_experience() {
         $stmt = $this->connect()->query("SELECT * 
         FROM dt173g_projekt.cv_experience
@@ -62,6 +69,9 @@ class Cv extends Database {
 
     */
 
+    // Här uppdaterar vi allt innehåll baserat på värden som skickas som argument.
+    // Dessa placeras i placeholders  som sedan körs.
+    
     public function update_address($street, $zip, $city, $country) {
         $stmt = $this->connect()->prepare("UPDATE dt173g_projekt.cv_personal
         SET `street`=?,`zip_code`=?,`city`=?,`country`=?");
@@ -107,6 +117,8 @@ class Cv extends Database {
     
     */
 
+    // Samma variant som ovan, istället för uppdatera så kör vi insert istället
+
     public function insert_edu_kur($place, $desc, $start, $end, $type) {
         $stmt = $this->connect()->prepare("INSERT INTO dt173g_projekt.cv_edu_kuriosa(`place`, `description`, `start`, `end`, `type`) 
         VALUES (?, ?, ?, ?, ?)");
@@ -132,6 +144,7 @@ class Cv extends Database {
 
     */
 
+    
     public function delete_edu_kur($id) {
         $stmt = $this->connect()->prepare("DELETE FROM dt173g_projekt.cv_edu_kuriosa WHERE id = ?");
         $stmt->execute([$id]);

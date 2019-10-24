@@ -1,5 +1,6 @@
 <?php
 
+// Klass för att logga in användaren
 class Login extends Database {
 
     public function login_user($username, $password) {
@@ -11,19 +12,19 @@ class Login extends Database {
         
         $stmt->execute([$username, $username]);
 
-        /* First we control the result */
+        /* Kontrollerae ifall vi får ett resultat */
         if($stmt->rowCount()){
-            /* Then we go through the result */
+            /* Finns det så går vi vidare */
             while($row = $stmt->fetch()){
-                /* Here we check so that the password matches the hashed on */
+                /* Kontrollera så att den textsträng som användaren anger matchar det lösenordet som finns, detta genom att använda funktionen password_verify */
                 $passwordCheck = password_verify($password, $row['password']);
-                /* If it's false, return false */
+                /* Kontroll */
                 if($passwordCheck == false ) {
                     return false;
                 } 
-                /* If it's correct, return true */
+                /* Om värdet är sant logga in användaren */
                 else if ($passwordCheck == true) {
-                    /* Start the session and give the session variables user information */
+                    /* Logga in användaren och ge session id som användarens användar-id */
                     session_start();
                     $_SESSION['id'] = $row['user_id'];
                     $_SESSION['name'] = $row['username'];
@@ -34,6 +35,7 @@ class Login extends Database {
         }
     }
 
+    // Logga ut metod
     public function logoutUser() {
         session_start();
         session_unset();

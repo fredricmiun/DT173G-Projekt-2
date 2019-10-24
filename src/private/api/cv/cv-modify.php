@@ -8,7 +8,7 @@ spl_autoload_register(function($class) {
 
 // Hämta metod
 $method = $_SERVER['REQUEST_METHOD'];
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE, PUT");
 header("Content-type:application/json;charset=utf-8");
 // Gör det möjligt att hämta data so mskickas
@@ -58,7 +58,8 @@ switch ($method) {
             $mess['content'] = $retrieve_exp;
             
         } 
-        // Post to DB
+        // Här skickas data till databasen
+        // En nyckel bestämmer vad som ska skickas
         else if ($input['data'] == "insert") {
             $insert_cv = new Cv;
             $result = json_decode($input['form']);
@@ -179,6 +180,7 @@ switch ($method) {
     break;
     case "DELETE":
     $delete_cv = new Cv;
+    // Baserat på nyckeln kan vi bestämma vilken metod i klassen Cv som ska användas, m.a.o. vad som ska tas bort.
     if($input['key'] == "edu") {
         $delete_cv->delete_edu_kur($input['id']);
     } else if($input['key'] == "kur") {
@@ -191,4 +193,5 @@ switch ($method) {
     $mess = "Borttaget!";
     break;
 };
+// returnera
 echo json_encode($mess);

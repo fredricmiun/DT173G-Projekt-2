@@ -1,3 +1,4 @@
+<?php /* Lightbox för att registrera med diverse spärrar, något som också behöver läggas in på backend-sidan */ ?>
 <div class="lightbox" id="join">
     <div class="lightbox-header">
         <h2>Registrera</h2>

@@ -3,6 +3,7 @@ function displayData(a, b) {
   let element = document.getElementsByClassName("edit-content");
   element[1].innerHTML = "";
 
+  // Använder en switch för att särskilja data som ska presenteras i edit lightboxen
   switch (a) {
     case "adress":
       b.forEach(function(elem) {
@@ -98,6 +99,7 @@ function displayData(a, b) {
         "<input type='text' name='end' placeholder='Slutdatum' value=''>" +
         "<button class='__save' type='submit'>Skapa</button>" +
         "</div></form>";
+      // insertDb() anropas eftersom fler forms skapas, och i denna funktion hittar vi alla forms i en loop, detta måste loopas för att de forms som skapas för varje potentiellt datavärde ska kunna skickas till databasen eller uppdateras
       insertDb();
       break;
     case "kur":
@@ -207,11 +209,17 @@ function displayData(a, b) {
       break;
   }
 
+  // Anropar updateDb av samma anledning som insertDb(). Varje rad av data innehåller uppdateringsmöjlighet, detta loopas för att göra det möjligt att uppdatera varje rad.
   updateDb();
 }
 
+// Konstant för url_edit
 const url_edit =
-  "http://localhost/DT173G%20-%20Projekt/build/public/api/cv/cv-modify.php";
+  "http://localhost/DT173G%20-%20Projekt/build/private/api/cv/cv-modify.php";
+
+// Denna funktion laddar innehållet i lightboxen för edits. Den baserar innehållet i lightboxen på den data som finns i redigeringsknappen.
+// Trycker vi exempelvis på att redigera 'adress', skickas det värdet till rest api och servern vet då vad som ska redigeras, och matar oss sedan med rätt innehåll.
+// Detta för att undvika att ha flera lightbox som är unika för sitt ändamål. Nu klarar vi oss på en lightbox.
 let loadEdit = x => {
   fetch(url_edit, {
     method: "POST",
@@ -233,6 +241,9 @@ let loadEdit = x => {
       console.log("Fetch Error:", err);
     });
 };
+
+// Denna funktion används för att uppdatera information.
+// För att göra det så effektivt som möjligt skickas all data i Html Form. All information läggs in i ett objekt som sedan stringifieras av JSON, denna sträng skickas till REST API där det sedan omvandlas till JSON, och därefter lagras i respektive tabell i databasen.
 
 let updateDb = () => {
   let form = document.getElementsByClassName("form");
@@ -270,6 +281,7 @@ let updateDb = () => {
   }
 };
 
+// Använder samma princip som för att uppdatera. Forminnehåll -> objekt -> sträng -> rest api -> konvertera till json -> lägg in i databas
 let insertDb = () => {
   let form = document.getElementsByClassName("create-form");
 
@@ -309,6 +321,9 @@ let insertDb = () => {
   }
 };
 
+// Deletefunktion. För att kunna använda samma funktion för alla deletemöjligheter så lagras "nyckeln" som värde.
+// Det är den nyckeln som sedan på serversidan avgör vilken tabell som det ska tas bort ifrån.
+// Detta gör att alla delete-knappar kan använda samma funktion, förutsatt att nyckeln är satt i delete-knappen som värde.
 let deleteData = (id, key) => {
   fetch(url_edit, {
     method: "DELETE",

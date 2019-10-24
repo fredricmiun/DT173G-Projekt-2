@@ -1,3 +1,4 @@
+<?php /* Lightbox för att redigera innehåll. Innehållet baseras på vad en vill redigera */ ?>
 <div class="lightbox" id="edit-box">
     <div class="lightbox-header">
         <h2>Redigera eller lägg till</h2>

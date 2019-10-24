@@ -1,6 +1,9 @@
 // Url för rest
 const url =
-  "http://localhost/DT173G%20-%20Projekt/build/public/api/join/join.php";
+  "http://localhost/DT173G%20-%20Projekt/build/private/api/join/join.php";
+
+// Här särskiljer vi informationen i formen som sedan skickas till api
+// Längre ner hanterar vi informationen som kommer tillbaka och presenterar det.
 
 $("#signup").submit(function(e) {
   e.preventDefault();
