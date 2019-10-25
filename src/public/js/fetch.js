@@ -207,6 +207,41 @@ function displayData(a, b) {
         "</div></form>";
       insertDb();
       break;
+    case "web":
+      b.forEach(function(elem) {
+        element[1].innerHTML +=
+          "<form class='form'><div class='content_container'><input type='hidden' name='key' value='web'>" +
+          "<input type='hidden' name='id' value='" +
+          elem.id +
+          "'>" +
+          "<input type='text' name='name' placeholder='Name' value='" +
+          elem.name +
+          "'>" +
+          "<input type='text' name='url' placeholder='Url' value='" +
+          elem.url +
+          "'>" +
+          "<input type='text' name='description' placeholder='Description' value='" +
+          elem.description +
+          "'>" +
+          "<button onClick='deleteData(" +
+          elem.id +
+          "," +
+          "&apos;web&apos;" +
+          ")' class='__delete' name='delete_id' type='button'>Ta bort</button>" +
+          "<button class='__save' type='submit'>Spara</button>" +
+          "</div></form>";
+      });
+      element[1].innerHTML +=
+        "<form class='create-form'><div class='content_container'>" +
+        "<h4>Lägg till webbplats / Pris</h4>" +
+        "<input type='hidden' name='key' value='web'>" +
+        "<input type='text' name='name' placeholder='Name' value=''>" +
+        "<input type='text' name='url' placeholder='Webbplats' value=''>" +
+        "<input type='text' name='description' placeholder='Beskrivning' value=''>" +
+        "<button class='__save' type='submit'>Skapa</button>" +
+        "</div></form>";
+      insertDb();
+      break;
   }
 
   // Anropar updateDb av samma anledning som insertDb(). Varje rad av data innehåller uppdateringsmöjlighet, detta loopas för att göra det möjligt att uppdatera varje rad.
@@ -235,6 +270,7 @@ let loadEdit = x => {
       response.json().then(function(data) {
         displayData(data["type"], data["content"]);
         console.log(data["content"]);
+        console.log(data["type"]);
       });
     })
     .catch(function(err) {

@@ -90,7 +90,7 @@ require "../private/config/cfg.php"; /* Config-fil */
                 }
                 response.text().then(function(data) {
                     elem[0].innerHTML = data;
-                    console.log(data);
+                    // console.log(data);
                 });
             })
             .catch(function(err) {

@@ -78,3 +78,17 @@ function display_exp($x) {
     echo "</ul>";
     }
     }
+
+    function display_web($x) {
+        foreach($x as $i => $y) 
+        {
+        echo "<ul>";
+        ?>
+<li class="list-header"><?= $y['name'] ?></li>
+<li><a href="https://<?= $y['url'] ?>"><?= $y['url'] ?></a></li>
+<li class="work-desc"><?= $y['description'] ?></li>
+</li>
+<?php
+        echo "</ul>";
+        }
+        }

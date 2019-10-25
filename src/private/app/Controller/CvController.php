@@ -24,6 +24,11 @@ if(isset($method)) {
             $retrieve_kur = $cv_kur->retrieve_arr();
         }
 
+        $cv_web = new Cv;
+        if($cv_web->cv_web()) {
+            $retrieve_web = $cv_web->retrieve_arr();
+        }
+
         // Experience
         $cv_exp = new Cv;
         if($cv_exp->cv_experience()) {

@@ -104,6 +104,14 @@ switch ($method) {
         </h3>
         <?php if(!empty($retrieve_exp)) display_exp($retrieve_exp) ?>
     </div>
+    <div class="cv-content-box">
+        <h3>WEBBPLATSER <span onClick="loadEdit('web')"
+                <?php if(!isset($_SESSION['id'])) { echo "data-featherlight='#login'"; } else { echo "data-featherlight='#edit-box'"; } ?>><?php icon_edit(16, "#161616") ?></span>
+        </h3>
+        <?php 
+        if(!empty($retrieve_web)) display_web($retrieve_web) 
+        ?>
+    </div>
 </main>
 <?php
     break;

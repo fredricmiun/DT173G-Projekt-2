@@ -62,6 +62,18 @@ class Cv extends Database {
             return true;
         }
     }
+
+    // Allt från tabellen cv_web
+    public function cv_web() {
+        $stmt = $this->connect()->query("SELECT * 
+        FROM dt173g_projekt.cv_web");
+        if($stmt->rowCount()){
+            while($row = $stmt->fetch()){
+                array_push($this->arr, $row);
+            }
+            return true;
+        }
+    }
     
     /* 
     
@@ -95,6 +107,13 @@ class Cv extends Database {
         SET `place`=?,`description`=?,`start`=?,`end`=?
         WHERE id = ?");
         $stmt->execute([$place, $desc, $start, $end, $id]);
+    }
+
+    public function update_web($id, $name, $url, $description) {
+        $stmt = $this->connect()->prepare("UPDATE dt173g_projekt.cv_web
+        SET `name`=?,`url`=?,`description`=?
+        WHERE id = ?");
+        $stmt->execute([$name, $url, $description, $id]);
     }
 
     public function update_experience($id, $place, $role, $desc, $start, $end) {
@@ -137,6 +156,12 @@ class Cv extends Database {
         $stmt->execute([$skills]);
     }
 
+    public function insert_web($place, $role, $desc) {
+        $stmt = $this->connect()->prepare("INSERT INTO dt173g_projekt.cv_web(`name`, `url`, `description`) 
+        VALUES (?, ?, ?)");
+        $stmt->execute([$place, $role, $desc]);
+    }
+
 
     /* 
 
@@ -157,6 +182,11 @@ class Cv extends Database {
 
     public function delete_skill($id) {
         $stmt = $this->connect()->prepare("DELETE FROM dt173g_projekt.cv_skills WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
+    public function delete_web($id) {
+        $stmt = $this->connect()->prepare("DELETE FROM dt173g_projekt.cv_web WHERE id = ?");
         $stmt->execute([$id]);
     }
 

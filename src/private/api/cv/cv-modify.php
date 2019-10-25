@@ -23,39 +23,80 @@ switch ($method) {
         // Hämta innehåll för lightbox(featherlight) baserat på skickat värde
         if($input['data'] == "adress") {
             
+            // Adress
             $mess['type'] = "adress";
             $mess['content'] = $retrieve_cv;
             
             
         } else if ($input['data'] == "kontakta") {
 
+            // Kontakt
             $mess['type'] = "kontakta";
             $mess['content'] = $retrieve_cv;
 
         } else if ($input['data'] == "skills") {
-            
-            $mess['type'] = "skills";
-            $mess['content'] = $retrieve_skills;
+
+            // Är arrayen tom så måste vi fortfarande skicka iväg något, därför skickar vi iväg en tom array.
+            // Men bara där det faktiskt går att lägga till nya rader.
+            // Där det är fasta rader, såsom på adress, så räddas vi av att det inte får vara tomma fält.
+            if(!empty($retrieve_skills)) {
+                $mess['type'] = "skills";
+                $mess['content'] = $retrieve_skills;
+            } else {
+                $mess['type'] = "skills";
+                $mess['content'] = [];
+            }
             
         } else if ($input['data'] == "edu") {
 
-            $mess['type'] = "edu";
-            $mess['content'] = $retrieve_edu;
+            // Education
+            if(!empty($retrieve_edu)) {
+                $mess['type'] = "edu";
+                $mess['content'] = $retrieve_edu;
+            } else {
+                $mess['type'] = "edu";
+                $mess['content'] = [];
+            }
 
         } else if ($input['data'] == "kur") {
-            
-            $mess['type'] = "kur";
-            $mess['content'] = $retrieve_kur;
+
+            // Kuriosa
+            if(!empty($retrieve_kur)) {
+                $mess['type'] = "kur";
+                $mess['content'] = $retrieve_kur;
+            } else {
+                $mess['type'] = "kur";
+                $mess['content'] = [];
+            }
 
         } else if ($input['data'] == "personligt") {
 
+            // Personligt
             $mess['type'] = "personligt";
             $mess['content'] = $retrieve_cv;
             
         } else if ($input['data'] == "exp") {
 
-            $mess['type'] = "exp";
-            $mess['content'] = $retrieve_exp;
+            // Experience
+            if(!empty($retrieve_exp)) { 
+                $mess['type'] = "exp";
+                $mess['content'] = $retrieve_exp;
+            } else {
+                $mess['type'] = "exp";
+                $mess['content'] = [];
+            }
+            
+        } else if ($input['data'] == "web") {
+
+            // Web
+            if(!empty($retrieve_web)) {
+                $mess['type'] = "web";
+                $mess['content'] = $retrieve_web;
+            } else {
+                $mess['type'] = "web";
+                $mess['content'] = [];
+            }
+                
             
         } 
         // Här skickas data till databasen
@@ -96,6 +137,16 @@ switch ($method) {
                     $mess = "Message: Fyll i alla fält!";
                 } else {
                     $insert_cv->insert_skill(strip_tags($result->skill));
+                    $mess = "Skapat!";
+                }
+                
+            } else if ($result->key == "web") {
+
+                
+                if(empty($result->name) || empty($result->url) || empty($result->description)) { 
+                    $mess = "Message: Fyll i alla fält!";
+                } else {
+                    $insert_cv->insert_web(strip_tags($result->name), strip_tags($result->url), strip_tags($result->description));
                     $mess = "Skapat!";
                 }
                 
@@ -176,6 +227,16 @@ switch ($method) {
             $mess = "Sparat!";
         }
         
+    } else if ($result->key == "web") {
+        
+        /* Web */
+        if(empty($result->name) || empty($result->url) || empty($result->description)) { 
+            $mess = "Tomma fält!";
+        } else {
+            $update_cv->update_web(strip_tags($result->id), strip_tags($result->name), strip_tags($result->url), strip_tags($result->description));
+            $mess = "Sparat!";
+        }
+        
     }
     break;
     case "DELETE":
@@ -187,6 +248,8 @@ switch ($method) {
         $delete_cv->delete_edu_kur($input['id']);
     } else if($input['key'] == "exp") {
         $delete_cv->delete_experience($input['id']);
+    } else if($input['key'] == "web") {
+        $delete_cv->delete_web($input['id']);
     } else if($input['key'] == "skills") {
         $delete_cv->delete_skill($input['id']);
     }
