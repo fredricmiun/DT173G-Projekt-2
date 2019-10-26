@@ -9,21 +9,27 @@ Frontend - Gulp
 1.  Gulp & Tillägg
 
     - gulp-sourcemaps
+      
       Sourcemaps används för att underlätta felsökning.
 
     - gulp-babel
+      
       Tillägget har använts för att degradera nyare versioner av ES.
 
     - browser-sync
+      
       Används för att underlätta arbetsflödet och uppdaterar webbläsaren automatiskt vid sparningar.
 
     - gulp-concat (Ej aktiverad)
+      
       Används för att slå ihop filer. Denna är ej "aktiverad".
 
     - gulp-uglify-es (Ej aktiverad)
+      
       Används för att fula ner js-kod. Används ej för tillfället.
 
     - gulp-sass
+      
       Allt utseende är skrivet med hjälp av SASS-verktyget. Detta översätts sedan till ren CSS genom gulp - automatiserat.
 
 2.  JS-filer
