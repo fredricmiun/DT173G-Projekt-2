@@ -35,15 +35,19 @@ Frontend - Gulp
 2.  JS-filer
 
     - join.api.js
+      
       Filen sköter formulärhanteringen av registrering av användare. Denna fil talar med ett api som gör det möjligt för en användare att skapas.
 
     - login.api.js
+      
       Filen har hand om inloggningar. Filen talar med ett api som kontrollerar att uppgifterna stämmer och skapar sedan en session med användar id som sessions-id.
 
     - fetch.js
+      
       Den här filen har hand om allt som berör redigering, inmatning eller borttagning av information i databasen. Den har inte hand om GET som visar CV:t, denna funktion finns tillgänglig i index.php filen.
 
     - tabindex.js
+      
       En viktig fil för användarupplevelsen vid hanteringen av formulär. Featherlight har en bugg för tillfället där alla input-fields saknar tabindex, vilket gör att det inte går att hoppa mellan input-fields på ett smidigt sätt. Denna fil gör så att vi lägger till tabindex. Funkar i de flesta webbläsare.
 
 3.  SCSS/CSS
